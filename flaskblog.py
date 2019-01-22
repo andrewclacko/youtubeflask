@@ -2,28 +2,23 @@ from flask import Flask, render_template, url_for, flash, redirect
 from forms import RegistrationForm, LoginForm
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'ab2933ee4f89dd56f6ee3913d10e711a'
+app.config['SECRET_KEY'] = '5791628bb0b13ce0c676dfde280ba245'
 
 posts = [
     {
-        'author': 'Andrew Clark',
+        'author': 'Corey Schafer',
         'title': 'Blog Post 1',
-        'content': 'This is my first post',
-        'date_posted': 'January 15, 2019'  
+        'content': 'First post content',
+        'date_posted': 'April 20, 2018'
     },
     {
-        'author': 'Lewis Clark',
+        'author': 'Jane Doe',
         'title': 'Blog Post 2',
-        'content': 'This is my second post',
-        'date_posted': 'January 16, 2019' 
-    },
-        {
-        'author': 'Kelly Clark',
-        'title': 'Blog Post 4',
-        'content': 'This is my fourth post',
-        'date_posted': 'January 10, 2019' 
+        'content': 'Second post content',
+        'date_posted': 'April 21, 2018'
     }
 ]
+
 
 @app.route("/")
 @app.route("/home")
@@ -36,25 +31,25 @@ def about():
     return render_template('about.html', title='About')
 
 
-# @app.route("/register", methods=['GET', 'POST'])
-# def register():
-#     form = RegistrationForm()
-#     if form.validate_on_submit():
-#         flash(f'Account created for {form.username.data}!', 'success')
-#         return redirect(url_for('home'))
-#     return render_template('register.html', title='Register', form=form)
+@app.route("/register", methods=['GET', 'POST'])
+def register():
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        flash(f'Account created for {form.username.data}!', 'success')
+        return redirect(url_for('home'))
+    return render_template('register.html', title='Register', form=form)
 
 
-# @app.route("/login", methods=['GET', 'POST'])
-# def login():
-#     form = LoginForm()
-#     if form.validate_on_submit():
-#         if form.email.data == 'admin@blog.com' and form.password.data == 'password':
-#             flash('You have been logged in!', 'success')
-#             return redirect(url_for('home'))
-#         else:
-#             flash('Login Unsuccessful. Please check username and password', 'danger')
-#     return render_template('login.html', title='Login', form=form)
+@app.route("/login", methods=['GET', 'POST'])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        if form.email.data == 'admin@blog.com' and form.password.data == 'password':
+            flash('You have been logged in!', 'success')
+            return redirect(url_for('home'))
+        else:
+            flash('Login Unsuccessful. Please check username and password', 'danger')
+    return render_template('login.html', title='Login', form=form)
 
 
 if __name__ == '__main__':
